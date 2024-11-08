@@ -18,7 +18,7 @@ function App() {
         setCountries(data);
         console.log(data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
 
@@ -35,7 +35,7 @@ function App() {
         setStates(data);
         console.log(data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
 
@@ -52,7 +52,7 @@ function App() {
         setCities(data);
         console.log(data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
 
@@ -97,9 +97,9 @@ function App() {
         </select>
       </div>
       {selectedCity !== "" && (
-        <h2>
+        <p>
           You Selected {selectedCity}, {selectedState}, {selectedCoutry}
-        </h2>
+        </p>
       )}
     </div>
   );
