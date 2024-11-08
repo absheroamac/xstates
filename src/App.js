@@ -26,7 +26,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const getCountries = async () => {
+    if (!selectedCountry) return;
+    const getStates = async () => {
       try {
         const res = await fetch(
           `https://crio-location-selector.onrender.com/country=${selectedCountry}/states`
@@ -35,14 +36,16 @@ function App() {
         setStates(data);
       } catch (err) {
         console.error(err);
+        setStates([]);
       }
     };
 
-    getCountries();
+    getStates();
   }, [selectedCountry]);
 
   useEffect(() => {
-    const getCountries = async () => {
+    if (!selectedState) return;
+    const getCities = async () => {
       try {
         const res = await fetch(
           `https://crio-location-selector.onrender.com/country=${selectedCountry}/state=${selectedState}/cities`
@@ -51,51 +54,64 @@ function App() {
         setCities(data);
       } catch (err) {
         console.error(err);
+        setCities([]);
       }
     };
 
-    getCountries();
+    getCities();
   }, [selectedState]);
 
   return (
     <div className="App" style={{ fontFamily: "sans-serif" }}>
       <h1>Select Location</h1>
       <select
+        value={selectedCountry}
         disabled={countries.length === 0}
         onChange={(event) => setSelectedCountry(event.target.value)}
       >
-        <option value="" disabled selected>
+        <option value="" disabled>
           Select Country
         </option>
-        {countries.length > 0 &&
-          countries.map((item) => <option value={item}>{item}</option>)}
+        {countries.map((item) => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
       </select>
 
       <select
+        value={selectedState}
         disabled={states.length === 0}
         onChange={(event) => setSelectedState(event.target.value)}
       >
-        <option value="" disabled selected>
+        <option value="" disabled>
           Select State
         </option>
-        {states.length > 0 &&
-          states.map((item) => <option value={item}>{item}</option>)}
+        {states.map((item) => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
       </select>
 
       <select
+        value={selectedCity}
         disabled={cities.length === 0}
         onChange={(event) => setSelectedCity(event.target.value)}
       >
-        <option value="" disabled selected>
+        <option value="" disabled>
           Select City
         </option>
-        {cities.length > 0 &&
-          cities.map((item) => <option value={item}>{item}</option>)}
+        {cities.map((item) => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
       </select>
 
-      {selectedCity !== "" && (
+      {selectedCity && selectedState && selectedCountry && (
         <p>
-          You Selected {selectedCity}, {selectedState}, {selectedCountry}
+          You selected {selectedCity}, {selectedState}, {selectedCountry}
         </p>
       )}
     </div>
