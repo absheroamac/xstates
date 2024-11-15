@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+//added comments
 function App() {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
